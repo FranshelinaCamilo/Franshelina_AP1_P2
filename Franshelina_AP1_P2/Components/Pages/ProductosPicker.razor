@@ -1,0 +1,77 @@
+﻿<div class="col-auto input-group align-items-center">
+    <label class="col-form-label input-group-text">Seleccione:</label>
+
+    <InputSelect class="form-control form-select" @bind-Value="ProductoId">
+        <option disabled value="0">-- Seleccione un producto --</option>
+        @foreach (var producto in Productos)
+        {
+            <option value="@producto.ProductoId">
+                @producto.ProductoId - @producto.Descripcion (Disponibles: @producto.Stock)
+            </option>
+        }
+    </InputSelect>
+
+    <label class="col-form-label input-group-text">Cantidad:</label>
+    <InputNumber class="form-control" id="quantity-input" @bind-Value="Cantidad" min="1" />
+
+    <button type="button" class="btn btn-outline-success bi bi-plus"
+            @onclick="TriggerSelection">
+        Agregar
+    </button>
+</div>
+
+@if (ErrorMessage != null)
+{
+    <div class="alert alert-danger mt-2" role="alert">
+        @ErrorMessage
+    </div>
+}
+
+@code {
+    [Parameter]
+    public List<Productos> Productos { get; set; } = [];
+
+    [Parameter]
+    public int ProductoId { get; set; }
+
+    [Parameter]
+    public EventCallback<int> ProductoIdChanged { get; set; }
+
+    [Parameter]
+    public int Cantidad { get; set; } = 1;
+
+    [Parameter]
+    public EventCallback<int> CantidadChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<(Productos Producto, int Cantidad)> OnProductoSelected { get; set; }
+
+    private string? ErrorMessage { get; set; } = null;
+
+    private async Task TriggerSelection()
+    {
+        ErrorMessage = null;
+        if (ProductoId > 0 && Cantidad > 0)
+        {
+            var productoSeleccionado = Productos.SingleOrDefault(p => p.ProductoId == ProductoId);
+
+            if (productoSeleccionado == null)
+            {
+                ErrorMessage = "El producto seleccionado no es válido";
+                return;
+            }
+
+            await OnProductoSelected.InvokeAsync((productoSeleccionado, Cantidad));
+            
+            // Opcional: Reiniciar la selección interna después de agregar
+            ProductoId = 0;
+            await ProductoIdChanged.InvokeAsync(ProductoId);
+            Cantidad = 1;
+            await CantidadChanged.InvokeAsync(Cantidad);
+        }
+        else
+        {
+            ErrorMessage = "Debe seleccionar un producto y colocar una cantidad válida";
+        }
+    }
+}

@@ -22,8 +22,8 @@ public class VentasDetalle
     public virtual Productos? Producto { get; set; }
 
     [Range(1, double.MaxValue, ErrorMessage = "El monto debe ser mayor a 0")]
-    public double? Precio { get; set; }
+    public double Precio { get; set; }
 
     [Range(1, double.MaxValue, ErrorMessage = "La cantidad debe ser mayor a 0")]
-    public int? Cantidad { get; set; }
+    public int Cantidad { get; set; }
 }

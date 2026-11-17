@@ -27,7 +27,7 @@ namespace Franshelina_AP1_P2.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<double?>("Precio")
+                    b.Property<double>("Precio")
                         .HasColumnType("REAL");
 
                     b.Property<int?>("Stock")
@@ -81,15 +81,15 @@ namespace Franshelina_AP1_P2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateOnly>("Fecha")
+                    b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
-
-                    b.Property<double?>("Monto")
-                        .HasColumnType("REAL");
 
                     b.Property<string>("Observacion")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<double>("Total")
+                        .HasColumnType("REAL");
 
                     b.HasKey("VentaId");
 
@@ -102,10 +102,10 @@ namespace Franshelina_AP1_P2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("Cantidad")
+                    b.Property<int>("Cantidad")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double?>("Precio")
+                    b.Property<double>("Precio")
                         .HasColumnType("REAL");
 
                     b.Property<int>("ProductoId")

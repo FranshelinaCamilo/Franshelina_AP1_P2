@@ -1,0 +1,96 @@
+﻿@page "/Productos/Index"
+@rendermode InteractiveServer
+@inject ProductosService productosService
+
+<PageTitle>Registro de Productos</PageTitle>
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header d-flex justify-content-between align-center mb-4">
+            <h5 class="card-title mt-2">Registro de Productos</h5>
+        </div>
+
+        <div class="card-body">
+            @*labels*@
+            <div class="row">
+                @*Filtrar por*@
+                <div class="col-3">
+                    <label class="col-form-label"><strong>Filtrar por</strong></label>
+                </div>
+
+                @*ValorFiltro*@
+                <div class="col-4">
+                    <label class="col-form-label"><strong>B&uacute;squeda</strong></label>
+                </div>
+            </div>
+
+            @*Inputs y botones*@
+            <div class="row align-items-center">
+                @*filtro*@
+                <div class="col-3">
+                    <InputSelect class="form-select" @bind-Value="Filtro">
+                        <option value="" selected disabled>Elija una opci&oacute;n</option>
+                        <option value="Id">Id</option>
+                        <option value="Descripcion">Descripcion</option>
+                    </InputSelect>
+                </div>
+
+                @*Busqueda*@
+                <div class="col-4">
+                    <div class="input-group">
+                        <input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
+                        <button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid mt-3">
+                <QuickGrid Items="@itemsQueryable">
+                    <PropertyColumn Property="@(p => p.ProductoId)" title="Id" Sortable="true" />
+                    <PropertyColumn Property="@(p => p.Descripcion)" title="Nombre" Sortable="true" Align="Align.Left" />
+                    <PropertyColumn Property="@(p => p.Precio)" title="Precio" Sortable="true" Align="Align.Left" />
+                    <PropertyColumn Property="@(p => p.Stock)" title="Stock" Sortable="true" Align="Align.Left" />
+                </QuickGrid>
+            </div>
+        </div>
+
+        <div class="card-footer d-flex justify-content-between align-center mb-4">
+            <label><strong>Cantidad: </strong> @itemsQueryable?.Count()</label>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Productos> ListaProductos { get; set; } = new List<Productos>();
+    private IQueryable<Productos> itemsQueryable;
+    private Productos producto = new();
+
+    private string Filtro { get; set; } = string.Empty;
+    private string ValorFiltro { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await productosService.GetList(p => true);
+        result.OnSuccess(p => ListaProductos = p);
+        itemsQueryable = ListaProductos.AsQueryable();
+    }
+
+    private async Task Buscar()
+    {
+        if (ValorFiltro == "")
+        {
+            var result = await productosService.GetList(p => true);
+            result.OnSuccess(p => ListaProductos = p);
+        }
+        else if (ValorFiltro.Trim() != "" && Filtro == "Id")
+        {
+            var result = await productosService.GetList(p => p.ProductoId.ToString().Contains(ValorFiltro));
+            result.OnSuccess(p => ListaProductos = p);
+        }
+        else if (ValorFiltro.Trim() != "" && Filtro == "Descripcion")
+        {
+            var result = await productosService.GetList(p => p.Descripcion.ToLower().Contains(ValorFiltro.ToLower()));
+            result.OnSuccess(p => ListaProductos = p);
+        }
+        itemsQueryable = ListaProductos.AsQueryable();
+    }
+}

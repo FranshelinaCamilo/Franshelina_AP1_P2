@@ -9,14 +9,13 @@ public class Ventas
     public int VentaId { get; set; }
 
     [Required(ErrorMessage ="Este campo es obligatorio")]
-    public DateOnly? Fecha { get; set; }
+    public DateTime? Fecha { get; set; }
 
     [Required(ErrorMessage = "Este campo es obligatorio")]
-    public string? Observacion { get; set; }
+    public string Observacion { get; set; }
 
-    [Range(1, double.MaxValue, ErrorMessage = "El monto debe ser mayor a 0")]
-    public double? Monto { get; set; }
+    public double Total { get; set; } = 0;
 
     [InverseProperty("Ventas")]
-    public ICollection<VentasDetalle>? VentasDetalle { get; set; } = new List<VentasDetalle>();
+    public ICollection<VentasDetalle> VentasDetalle { get; set; } = new List<VentasDetalle>();
 }
