@@ -17,7 +17,7 @@ namespace Franshelina_AP1_P2.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.14");
 
-            modelBuilder.Entity("Franshelina_AP1_P2.Models.Producto", b =>
+            modelBuilder.Entity("Franshelina_AP1_P2.Models.Productos", b =>
                 {
                     b.Property<int>("ProductoId")
                         .ValueGeneratedOnAdd()
@@ -35,12 +35,49 @@ namespace Franshelina_AP1_P2.Migrations
 
                     b.HasKey("ProductoId");
 
-                    b.ToTable("Producto");
+                    b.ToTable("Productos");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductoId = 1,
+                            Descripcion = "Mocca",
+                            Precio = 150.0,
+                            Stock = 10
+                        },
+                        new
+                        {
+                            ProductoId = 2,
+                            Descripcion = "Cappuccino",
+                            Precio = 120.0,
+                            Stock = 10
+                        },
+                        new
+                        {
+                            ProductoId = 3,
+                            Descripcion = "Latte",
+                            Precio = 130.0,
+                            Stock = 10
+                        },
+                        new
+                        {
+                            ProductoId = 4,
+                            Descripcion = "Espresso",
+                            Precio = 200.0,
+                            Stock = 10
+                        },
+                        new
+                        {
+                            ProductoId = 5,
+                            Descripcion = "Machiatto",
+                            Precio = 220.0,
+                            Stock = 10
+                        });
                 });
 
             modelBuilder.Entity("Franshelina_AP1_P2.Models.Ventas", b =>
                 {
-                    b.Property<int>("VentasId")
+                    b.Property<int>("VentaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -54,7 +91,7 @@ namespace Franshelina_AP1_P2.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("VentasId");
+                    b.HasKey("VentaId");
 
                     b.ToTable("Ventas");
                 });
@@ -65,8 +102,8 @@ namespace Franshelina_AP1_P2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<double?>("Cantidad")
-                        .HasColumnType("REAL");
+                    b.Property<int?>("Cantidad")
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("Precio")
                         .HasColumnType("REAL");
@@ -74,21 +111,21 @@ namespace Franshelina_AP1_P2.Migrations
                     b.Property<int>("ProductoId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("VentasId")
+                    b.Property<int>("VentaId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("DetalleId");
 
                     b.HasIndex("ProductoId");
 
-                    b.HasIndex("VentasId");
+                    b.HasIndex("VentaId");
 
-                    b.ToTable("VentasDetalle");
+                    b.ToTable("VentasDetalles");
                 });
 
             modelBuilder.Entity("Franshelina_AP1_P2.Models.VentasDetalle", b =>
                 {
-                    b.HasOne("Franshelina_AP1_P2.Models.Producto", "Producto")
+                    b.HasOne("Franshelina_AP1_P2.Models.Productos", "Producto")
                         .WithMany()
                         .HasForeignKey("ProductoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -96,7 +133,7 @@ namespace Franshelina_AP1_P2.Migrations
 
                     b.HasOne("Franshelina_AP1_P2.Models.Ventas", "Ventas")
                         .WithMany("VentasDetalle")
-                        .HasForeignKey("VentasId")
+                        .HasForeignKey("VentaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

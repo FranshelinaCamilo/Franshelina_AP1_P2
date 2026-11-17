@@ -9,9 +9,9 @@ public class VentasDetalle
     public int DetalleId { get; set; }
 
     [Required(ErrorMessage = "Este campo es obligatorio")]
-    public int VentasId { get; set; }
+    public int VentaId { get; set; }
 
-    [ForeignKey("VentasId")]
+    [ForeignKey("VentaId")]
     [InverseProperty("VentasDetalle")]
     public virtual Ventas? Ventas { get; set; }
 
@@ -25,5 +25,5 @@ public class VentasDetalle
     public double? Precio { get; set; }
 
     [Range(1, double.MaxValue, ErrorMessage = "La cantidad debe ser mayor a 0")]
-    public double? Cantidad { get; set; }
+    public int? Cantidad { get; set; }
 }

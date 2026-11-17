@@ -6,7 +6,7 @@ namespace Franshelina_AP1_P2.Models;
 public class Ventas
 {
     [Key]
-    public int VentasId { get; set; }
+    public int VentaId { get; set; }
 
     [Required(ErrorMessage ="Este campo es obligatorio")]
     public DateOnly? Fecha { get; set; }
