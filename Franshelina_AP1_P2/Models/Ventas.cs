@@ -18,5 +18,5 @@ public class Ventas
     public double? Monto { get; set; }
 
     [InverseProperty("Ventas")]
-    public ICollection<VentasDetalle>? VentasDetalle { get; set; }
+    public ICollection<VentasDetalle>? VentasDetalle { get; set; } = new List<VentasDetalle>();
 }

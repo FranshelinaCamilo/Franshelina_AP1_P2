@@ -2,7 +2,7 @@
 
 namespace Franshelina_AP1_P2.Models;
 
-public class Producto
+public class Productos
 {
     [Key]
     public int ProductoId { get; set; }

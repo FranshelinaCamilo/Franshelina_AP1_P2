@@ -19,7 +19,7 @@ public class VentasDetalle
     public int ProductoId { get; set; }
 
     [ForeignKey("ProductoId")]
-    public virtual Producto? Producto { get; set; }
+    public virtual Productos? Producto { get; set; }
 
     [Range(1, double.MaxValue, ErrorMessage = "El monto debe ser mayor a 0")]
     public double? Precio { get; set; }
