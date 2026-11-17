@@ -64,8 +64,8 @@
                                 <tr>
                                     <td>@(detalle.Producto?.Descripcion ?? ObtenerNombreProducto(detalle.ProductoId))</td>
                                     <td>@detalle.Cantidad</td>
-                                    <td>@detalle.Precio</td>
-                                    <td>@(detalle.Cantidad * detalle.Precio)</td>
+                                    <td>$@(detalle.Precio.ToString("N2"))</td>
+                                    <td>$@((detalle.Cantidad * detalle.Precio).ToString("N2")   )</td>
                                     <td>
                                         <button type="button" class="btn btn-outline-danger bi bi-trash"
                                                 @onclick="() => RemoverDetalle(detalle)"></button>
@@ -82,7 +82,7 @@
                     <div class="col-6 offset-6">
                         <div class="mb-3">
                             <label class="form-label"><strong>Total de la Venta</strong></label>
-                            <label class="form-control text-end"><strong>@Venta.Total</strong></label>
+                            <label class="form-control text-end">$<strong>@(Venta.Total.ToString("N2"))</strong></label>
                             <ValidationMessage For="@(() => Venta.Total)" />
                         </div>
                     </div>
