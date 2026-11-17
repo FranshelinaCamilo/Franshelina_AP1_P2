@@ -1,7 +1,7 @@
 ﻿<div class="col-auto input-group align-items-center">
     <label class="col-form-label input-group-text">Seleccione:</label>
 
-    <InputSelect class="form-control form-select" @bind-Value="ProductoId">
+    <InputSelect class="form-control form-select" @bind-Value="ProductoId" @bind-Value:after="ActualizarPrecio">
         <option disabled value="0">-- Seleccione un producto --</option>
         @foreach (var producto in Productos)
         {
@@ -10,6 +10,9 @@
             </option>
         }
     </InputSelect>
+
+    <label class="col-form-label input-group-text">Precio:</label>
+    <label class="form-control">@Precio.ToString("N2")</label>
 
     <label class="col-form-label input-group-text">Cantidad:</label>
     <InputNumber class="form-control" id="quantity-input" @bind-Value="Cantidad" min="1" />
@@ -40,6 +43,8 @@
     [Parameter]
     public int Cantidad { get; set; } = 1;
 
+    private double Precio { get; set; } = 0;
+
     [Parameter]
     public EventCallback<int> CantidadChanged { get; set; }
 
@@ -62,10 +67,10 @@
             }
 
             await OnProductoSelected.InvokeAsync((productoSeleccionado, Cantidad));
-            
-            // Opcional: Reiniciar la selección interna después de agregar
+
             ProductoId = 0;
             await ProductoIdChanged.InvokeAsync(ProductoId);
+            Precio = 0;
             Cantidad = 1;
             await CantidadChanged.InvokeAsync(Cantidad);
         }
@@ -73,5 +78,11 @@
         {
             ErrorMessage = "Debe seleccionar un producto y colocar una cantidad válida";
         }
+    }
+
+    private void ActualizarPrecio()
+    {
+        var productoSeleccionado = Productos.SingleOrDefault(p => p.ProductoId == ProductoId);
+        Precio = productoSeleccionado?.Precio ?? 0;
     }
 }

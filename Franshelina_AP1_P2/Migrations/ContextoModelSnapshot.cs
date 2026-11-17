@@ -30,7 +30,7 @@ namespace Franshelina_AP1_P2.Migrations
                     b.Property<double>("Precio")
                         .HasColumnType("REAL");
 
-                    b.Property<int?>("Stock")
+                    b.Property<int>("Stock")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ProductoId");
